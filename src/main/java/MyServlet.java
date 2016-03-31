@@ -100,7 +100,7 @@ public class MyServlet extends HttpServlet {
             int countColumn = rsmd.getColumnCount();
             for(int i = 1; i <= countColumn; i++)
             {
-                sb.append(rsmd.getColumnName(i) + " ").append(rsmd.getColumnTypeName(i) + ", ");
+                sb.append(rsmd.getColumnName(i) + " ").append(rsmd.getColumnTypeName(i) + "(" + rsmd.getColumnDisplaySize(i) + "), ");
             }
 
         } catch (SQLException e) {
