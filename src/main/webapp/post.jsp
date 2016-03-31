@@ -6,7 +6,6 @@
 <body>
 <p>Запрос: </p>
 ${SQL}
-
 <p>
 <form method="get" action="test">
     <button type="submit">Назад</button>

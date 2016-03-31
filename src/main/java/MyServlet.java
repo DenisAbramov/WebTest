@@ -15,13 +15,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @WebServlet("/test")
-public class MyServlet extends HttpServlet {
+public class MyServlet extends HttpServlet{
 
     Connection dbConnection = null;
     DatabaseMetaData meta;
     Statement stmt = null;
 
-    @Override
+   @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
@@ -63,7 +63,6 @@ public class MyServlet extends HttpServlet {
                     req.setAttribute("ERROR", "Вы ввели неправильное имя таблицы");
                     RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
                     dispatcher.forward(req, resp);}
-
             }
 
             req.setAttribute("SQL", rezult);
@@ -100,7 +99,7 @@ public class MyServlet extends HttpServlet {
             int countColumn = rsmd.getColumnCount();
             for(int i = 1; i <= countColumn; i++)
             {
-                sb.append(rsmd.getColumnName(i) + " ").append(rsmd.getColumnTypeName(i) + ", ");
+                sb.append(rsmd.getColumnName(i) + " ").append(rsmd.getColumnTypeName(i) + "(" + rsmd.getColumnDisplaySize(i) + "), ");
             }
 
         } catch (SQLException e) {
