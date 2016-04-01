@@ -20,6 +20,9 @@ public class MyServlet extends HttpServlet{
     Connection dbConnection = null;
     DatabaseMetaData meta;
     Statement stmt = null;
+    String stringConnect;
+    String login;
+    String password;
 
    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,10 +37,13 @@ public class MyServlet extends HttpServlet{
         resp.setContentType("text/html");
 
 
+        stringConnect = req.getParameter("stringConnect");
+        login = req.getParameter("login");
+        password = req.getParameter("password");
         String nameDB = req.getParameter("nameDB");
         String nameTable = req.getParameter("nameTable");
 
-        if(nameDB.length() > 0 && nameTable.length() > 0) {
+        if(stringConnect.length() > 0 && login.length() > 0 && password.length() > 0 && nameDB.length() > 0 && nameTable.length() > 0) {
 
             String nameMethod = req.getParameter("getRadio");
             String rezult = null;
@@ -55,7 +61,7 @@ public class MyServlet extends HttpServlet{
             catch (NullPointerException | StringIndexOutOfBoundsException e)
             {
                 if(e instanceof NullPointerException){
-                    req.setAttribute("ERROR", "Вы ввели неправильное имя БД");
+                    req.setAttribute("ERROR", "Неверное значение в одном из полей: Строка подключения, Имя пользователя, Пароль пользователя, имя БД");
                     RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
                     dispatcher.forward(req, resp);}
                 else
@@ -68,7 +74,7 @@ public class MyServlet extends HttpServlet{
             req.setAttribute("SQL", rezult);
         }
         else
-            req.setAttribute("SQL", "Вероятно Вы не заполнили название БД или название таблицы");
+            req.setAttribute("SQL", "Вероятно Вы не заполнили какое-то поле");
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/post.jsp");
         dispatcher.forward(req, resp);
@@ -76,7 +82,11 @@ public class MyServlet extends HttpServlet{
 
     public String getCreate(String schemaName, String tableName)  {
 
-        dbConnection =  DBConnect.getDBConnection(schemaName);
+        if(stringConnect.contains("mysql"))
+        dbConnection =  DBConnect.getMySQLConnection(schemaName, stringConnect, login, password);
+        else
+        dbConnection = DBConnect.getPostgreSQLConnection(schemaName, stringConnect, login, password);
+
         StringBuilder sb = new StringBuilder();
         StringBuilder primary = new StringBuilder();
         ResultSet pr = null;
@@ -144,7 +154,11 @@ public class MyServlet extends HttpServlet{
 
     public String getSelect(String schemaName, String tableName)  {
 
-        dbConnection =  DBConnect.getDBConnection(schemaName);
+        if(stringConnect.contains("mysql"))
+            dbConnection =  DBConnect.getMySQLConnection(schemaName, stringConnect, login, password);
+        else
+            dbConnection = DBConnect.getPostgreSQLConnection(schemaName, stringConnect, login, password);
+
         StringBuilder sb = new StringBuilder();
         ResultSet rs = null;
         ResultSetMetaData rsmd;
@@ -192,7 +206,12 @@ public class MyServlet extends HttpServlet{
     }
 
     public String getUpdate(String schemaName, String tableName)  {
-        dbConnection =  DBConnect.getDBConnection(schemaName);
+
+        if(stringConnect.contains("mysql"))
+            dbConnection =  DBConnect.getMySQLConnection(schemaName, stringConnect, login, password);
+        else
+            dbConnection = DBConnect.getPostgreSQLConnection(schemaName, stringConnect, login, password);
+
         StringBuilder sb = new StringBuilder();
         ResultSet rs = null;
         ResultSetMetaData rsmd;
