@@ -89,8 +89,8 @@ public class MyServlet extends HttpServlet{
 
         StringBuilder sb = new StringBuilder();
         StringBuilder primary = new StringBuilder();
-        ResultSet pr = null;
-        ResultSet rs = null;
+        ResultSet pr;
+        ResultSet rs;
         ResultSetMetaData rsmd;
 
         try {
@@ -146,7 +146,7 @@ public class MyServlet extends HttpServlet{
             dbConnection = DBConnect.getPostgreSQLConnection(schemaName, stringConnect, login, password);
 
         StringBuilder sb = new StringBuilder();
-        ResultSet rs = null;
+        ResultSet rs;
         ResultSetMetaData rsmd;
         String prim = null;
 
@@ -193,7 +193,7 @@ public class MyServlet extends HttpServlet{
             dbConnection = DBConnect.getPostgreSQLConnection(schemaName, stringConnect, login, password);
 
         StringBuilder sb = new StringBuilder();
-        ResultSet rs = null;
+        ResultSet rs;
         ResultSetMetaData rsmd;
         String prim = null;
 
@@ -236,7 +236,7 @@ public class MyServlet extends HttpServlet{
     private String getPrimaryKeys(DatabaseMetaData m, String tableName)
     {
         StringBuilder primary = new StringBuilder();
-        ResultSet pr = null;
+        ResultSet pr;
         try {
             pr = m.getPrimaryKeys(null, null, tableName);
             while (pr.next()) {
@@ -247,15 +247,7 @@ public class MyServlet extends HttpServlet{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        finally {
-            try {
-                if(pr != null)
-                    pr.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
+    
         return primary.toString().trim();
     }
 
