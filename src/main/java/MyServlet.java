@@ -116,27 +116,13 @@ public class MyServlet extends HttpServlet{
             e.printStackTrace();
         }
         finally {
-            try {
-                if(pr != null)
-                    pr.close();
+           try {
+                stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            try {
-                if(rs !=null)
-                    rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
             try {
                 dbConnection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -182,19 +168,13 @@ public class MyServlet extends HttpServlet{
             e.printStackTrace();
         }
         finally {
-            try {
-                if(rs != null)
-                    rs.close();
+           try {
+                stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             try {
                 dbConnection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -236,18 +216,12 @@ public class MyServlet extends HttpServlet{
         }
         finally {
             try {
-                if(rs !=null)
-                    rs.close();
+                stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             try {
                 dbConnection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
